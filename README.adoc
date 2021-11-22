@@ -38,14 +38,23 @@ docker-compose up --build
 
 
 == Test the application
-There is a cool website called https://mock.codes[https://mock.codes] that returns different http status codes which can be a good way to test adding a service to receive status OK or FAIL.
+
+Go to http://localhost:8082 for the front end React app,
+There is a cool website called https://mock.codes[https://mock.codes] that returns different http status codes which can be a good way to test adding a service to receive OK or FAIL statuses.
 
 - Add a service with url https://mock.codes/200
 - Add another service with url https://mock.codes/500
-- To test the polling services, you can edit one of the services with /500 to https://mock.codes/200 and wait for the poller update its status.
+- To test the polling services, you can edit one of the services with /500 to https://mock.codes/200 to simulate OK status and wait for the poller update its status.
 
+
+Backend service is on http://localhost:8081 with /api/services uri.
+
+- GET       /api/services. Returns a list of services.
+- POST      /api/services. Saves a service.
+- GET       /api/services/1. Returns a service.
+- DELETE    /api/services/1. Deletes a service.
 
 == More things could be done
 - Swagger UI for the backend service.
 - Loading indicator for the front end when loading the services.
-- More backend tests.
+- More backend tests. Ideally mocking the database or using in memory database like 'H2'
