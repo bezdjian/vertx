@@ -1,0 +1,51 @@
+= Fullstack Monitoring service
+
+Containerized application for adding and monitoring services by their URLs.
+
+- Backend monitoring-service with Vert.x and RxJava3
+- Front end React app with Axios.
+- MySql Database
+- Gradle build tool
+
+== Things are done in this app.
+- A user is able to add a service with URL and a name.
+- Backend with CRUD solution.
+- Added services are kept in containerized mysql database even if the backend service is restarted.
+- Front end UI displays all the services, user can add and remove a service.
+- The back end has a polling function that retrieves all the saved services every 10 seconds and checks their statuses and updates if any changes are found.
+- The UI has an interval of 10 seconds to refresh the table with new statuses.
+- There is no need to refresh the page after adding a service to see its status.
+- URL validation in the UI.
+
+This application was generated using http://start.vertx.io
+
+== Building and composing docker containers
+
+[source]
+----
+docker-compose build --no-cache
+----
+*_No need for --no-cache if you are building for the first time_*
+
+
+== Starting containers with docker compose
+
+[source]
+----
+docker-compose up --build
+----
+*_No need for --build if you have not changed Dockerfiles in any of the services._*
+
+
+== Test the application
+There is a cool website called https://mock.codes[https://mock.codes] that returns different http status codes which can be a good way to test adding a service to receive status OK or FAIL.
+
+- Add a service with url https://mock.codes/200
+- Add another service with url https://mock.codes/500
+- To test the polling services, you can edit one of the services with /500 to https://mock.codes/200 and wait for the poller update its status.
+
+
+== More things could be done
+- Swagger UI for the backend service.
+- Loading indicator for the front end when loading the services.
+- More backend tests.

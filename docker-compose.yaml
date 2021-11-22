@@ -14,3 +14,17 @@ services:
     volumes:
       - ./server/init.sql:/data/application/init.sql
     container_name: monitoring-service-database
+
+  monitoring_service:
+    depends_on:
+      - database
+    build: ./monitoring-service
+    ports:
+      - "8081:8881"
+    container_name: monitoring-service
+    environment:
+      - DATABASE_HOST=database
+      - DATABASE_USER=dev
+      - DATABASE_PASSWORD=secret
+      - DATABASE_NAME=dev
+      - DATABASE_PORT=3306
