@@ -28,3 +28,9 @@ services:
       - DATABASE_PASSWORD=secret
       - DATABASE_NAME=dev
       - DATABASE_PORT=3306
+
+  monitoring_service-ui:
+    build: ./monitoring-service-ui
+    ports:
+      - "8082:3000"
+    container_name: monitoring-service-ui

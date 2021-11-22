@@ -1,0 +1,9 @@
+.App {
+  text-align: center;
+}
+
+.error-box {
+  position: absolute !important;
+  padding: 8px !important;
+  margin: 3px 0;
+}
