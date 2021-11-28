@@ -1,0 +1,7 @@
+.vertx
+.vscode
+.idea
+message-consumer/target
+message-consumer/*.iml
+message-sender-server/target
+message-sender-server/*.iml
