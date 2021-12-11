@@ -1,3 +1,5 @@
 .idea
+.vscode
 monitoring-service/build
 monitoring-service/build/*
+*/build
