@@ -35,6 +35,7 @@ dependencies {
   implementation("io.vertx:vertx-web:$vertxVersion")
   implementation("io.vertx:vertx-web-client:$vertxVersion")
   implementation("io.vertx:vertx-mysql-client:$vertxVersion")
+  implementation("io.netty:netty-all:4.1.71.Final")
 
   implementation("org.projectlombok:lombok:$lombokVersion")
   implementation("org.slf4j:slf4j-api:$slf4jVersion")
