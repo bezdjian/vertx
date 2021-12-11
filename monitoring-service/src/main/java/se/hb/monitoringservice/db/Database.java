@@ -13,19 +13,23 @@ public class Database {
 
   public static final String LOCALHOST = "localhost";
   public static final String LOCALHOST_USER = "root";
+  public static final String LOCALHOST_PASSWORD = "root";
+  public static final String LOCALHOST_DB_NAME = "dev";
 
   public MySQLPool createConnection(Vertx vertx) {
 
     String databaseHost = getDatabaseHost();
     String databaseUser = getDatabaseUser();
+    String databasePassword = getDatabasePassword();
+    String databaseName = getDatabaseName();
 
     MySQLConnectOptions connectOptions = new MySQLConnectOptions()
       .setCharset("utf8")
       .setPort(3306)
       .setHost(databaseHost)
-      .setDatabase("dev")
+      .setDatabase(databaseName)
       .setUser(databaseUser)
-      .setPassword("secret");
+      .setPassword(databasePassword);
 
     PoolOptions poolOptions = new PoolOptions()
       .setMaxSize(5);
@@ -41,5 +45,15 @@ public class Database {
   private String getDatabaseUser() {
     return Optional.ofNullable(System.getenv("DATABASE_USER"))
       .orElse(LOCALHOST_USER);
+  }
+
+  private String getDatabasePassword() {
+    return Optional.ofNullable(System.getenv("DATABASE_PASSWORD"))
+      .orElse(LOCALHOST_PASSWORD);
+  }
+
+  private String getDatabaseName() {
+    return Optional.ofNullable(System.getenv("DATABASE_NAME"))
+      .orElse(LOCALHOST_DB_NAME);
   }
 }
