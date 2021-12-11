@@ -1,8 +1,6 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import org.gradle.api.tasks.testing.logging.TestLogEvent.*
 
 plugins {
-  java
   application
   id("com.github.johnrengelman.shadow") version "7.0.0"
 }
@@ -45,7 +43,6 @@ dependencies {
   testImplementation("io.vertx:vertx-junit5:$vertxVersion")
   testImplementation("com.squareup.okhttp3:mockwebserver:4.9.2")
 
-
   compileOnly("org.projectlombok:lombok:$lombokVersion")
   annotationProcessor("org.projectlombok:lombok:$lombokVersion")
 }
@@ -55,27 +52,30 @@ java {
   targetCompatibility = JavaVersion.VERSION_16
 }
 
-tasks.withType<ShadowJar> {
-  archiveClassifier.set("fat")
-  manifest {
-    attributes(mapOf("Main-Verticle" to applicationName))
+tasks {
+  test {
+    useJUnitPlatform()
+    testLogging {
+      events = setOf(PASSED, SKIPPED, FAILED)
+    }
   }
-  mergeServiceFiles()
+
+  withType<JavaExec> {
+    args = listOf(
+      "run",
+      applicationName,
+      "--redeploy=$watchForChange",
+      "--launcher-class=$launcherClassName",
+      "--on-redeploy=$doOnChange"
+    )
+  }
+
+  shadowJar {
+    archiveClassifier.set("fat")
+    manifest {
+      attributes(mapOf("Main-Verticle" to applicationName))
+    }
+    mergeServiceFiles()
+  }
 }
 
-tasks.withType<Test> {
-  useJUnitPlatform()
-  testLogging {
-    events = setOf(PASSED, SKIPPED, FAILED)
-  }
-}
-
-tasks.withType<JavaExec> {
-  args = listOf(
-    "run",
-    applicationName,
-    "--redeploy=$watchForChange",
-    "--launcher-class=$launcherClassName",
-    "--on-redeploy=$doOnChange"
-  )
-}
