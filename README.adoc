@@ -1,0 +1,80 @@
+= vertx-stock-broker
+
+image:https://img.shields.io/badge/vert.x-4.2.2-purple.svg[link="https://vertx.io"]
+
+An example Verticle for learning purposes.
+
+This application was generated using http://start.vertx.io
+
+== Building
+
+To launch your tests:
+
+[source]
+----
+./gradlew clean test
+----
+
+To package your application:
+
+[source]
+----
+./gradlew clean assemble
+----
+
+To run your application:
+
+[source]
+----
+./gradlew clean run
+----
+
+== Run the Verticle
+
+The verticle depends on Postgres database which can be used by Docker
+
+[source]
+----
+docker-compose -p broker -f infra/pg/postgres.yaml up --build
+----
+
+Then run the Verticle from Main.java.
+
+
+== Load testing with Vegeta.
+
+Start Application verticle and then run command below in terminal.
+
+[source]
+----
+echo "GET http://localhost:8888/api/slow" | vegeta attack -workers=4 -max-workers=8 -duration=30s | tee results.bin | vegeta report
+----
+
+== Database migration with Flyway
+
+The service uses Flyway for database migration, sql files are located under /resources/db/migration
+
+If checksum error encountered, run the command below
+
+First install flyway:
+
+[source]
+----
+brew install flyway
+----
+
+Then
+
+[source]
+----
+flyway repair -url=jdbc:postgresql://localhost:5432/ -password=secret -user=postgres
+----
+
+== Help
+
+* https://vertx.io/docs/[Vert.x Documentation]
+* https://stackoverflow.com/questions/tagged/vert.x?sort=newest&pageSize=15[Vert.x Stack Overflow]
+* https://groups.google.com/forum/?fromgroups#!forum/vertx[Vert.x User Group]
+* https://gitter.im/eclipse-vertx/vertx-users[Vert.x Gitter]
+
+

@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  db:
+    container_name: broker_mysql
+    platform: linux/x86_64
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      # Create db
+      MYSQL_ROOT_PASSWORD: secret
+      #MYSQL_USER: root
+      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: vertx-stock-broker
+      # Use root/secret user/password credentials
+    ports:
+      - "3309:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+# permanent storage of data.
+# > docker volume rm mysql_vertx-stock-broker-data-local
+volumes:
+  db_data:
