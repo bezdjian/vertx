@@ -29,7 +29,8 @@ public class PollHandler {
       .subscribe(service -> webClient.getAbs(service.getUrl())
           .rxSend()
           .flatMap(this::mapStatus)
-          .subscribe(newStatus -> checkStatusAndUpdate(service, newStatus)),
+          .subscribe(newStatus -> checkStatusAndUpdate(service, newStatus),
+            error -> log.error("Error while updating status: {}", error.getMessage())),
         error -> log.error("Error while checking url status: {}", error.getMessage()));
   }
 
@@ -43,7 +44,8 @@ public class PollHandler {
     log.info("Updating service '{}' status from '{}' to '{}'",
       service.getName(), service.getStatus(), newStatus);
     service.setStatus(newStatus);
-    serviceRepository.update(service).subscribe();
+    serviceRepository.update(service)
+      .subscribe(() -> log.info("Successfully updated service status"));
   }
 
   private boolean hasDifferentStatus(String currentStatus, String newStatus) {

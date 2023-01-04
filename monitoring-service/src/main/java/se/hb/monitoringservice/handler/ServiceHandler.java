@@ -41,7 +41,8 @@ public class ServiceHandler {
       .flatMap(this::mapStatus)
       .map(status -> mapServiceStatus(service, status))
       .onErrorReturnItem(service)
-      .subscribe(updatedService -> saveService(rc, updatedService));
+      .subscribe(updatedService -> saveService(rc, updatedService),
+        error -> log.error("Error while saving service {}: {}", service.getName(), error.getMessage()));
   }
 
   public void findById(RoutingContext rc) {
@@ -55,7 +56,8 @@ public class ServiceHandler {
     String id = rc.pathParam("id");
     serviceRepository.delete(id)
       .doOnError(error -> ResponseUtil.sendErrorResponse(rc, 500, error))
-      .subscribe(() -> ResponseUtil.sendSuccessResponse(rc, 200));
+      .subscribe(() -> ResponseUtil.sendSuccessResponse(rc, 200),
+        error -> log.error("Error while deleting service with ID {}: {}", id, error.getMessage()));
   }
 
   private Service mapServiceStatus(Service service, String status) {
@@ -66,7 +68,8 @@ public class ServiceHandler {
   private void saveService(RoutingContext rc, Service service) {
     log.info("Received {} status from {}", service.getStatus(), service.getUrl());
     serviceRepository.save(service)
-      .subscribe(() -> ResponseUtil.sendSuccessResponse(rc, 201));
+      .subscribe(() -> ResponseUtil.sendSuccessResponse(rc, 201),
+        error -> log.error("Error while saving service {}: {}", service.getName(), error.getMessage()));
   }
 
   private Single<String> mapStatus(HttpResponse<Buffer> response) {
