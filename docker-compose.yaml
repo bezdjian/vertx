@@ -31,6 +31,8 @@ services:
       - DATABASE_PORT=3306
 
   monitoring_service-ui:
+    depends_on:
+      - monitoring_service
     build: ./monitoring-service-ui
     ports:
       - "8082:3000"
