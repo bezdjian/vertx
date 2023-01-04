@@ -30,7 +30,8 @@ public class ServiceHandler {
     serviceRepository.findAll()
       .toList()
       .doOnError(error -> ResponseUtil.sendErrorResponse(rc, 500, error))
-      .subscribe(services -> ResponseUtil.sendSuccessResponse(rc, 200, services));
+      .subscribe(services -> ResponseUtil.sendSuccessResponse(rc, 200, services),
+        error -> log.error("Error while fetching all services: {}", error.getMessage()));
   }
 
   public void save(RoutingContext rc) {

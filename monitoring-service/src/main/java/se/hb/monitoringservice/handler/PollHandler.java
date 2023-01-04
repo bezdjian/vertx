@@ -30,7 +30,7 @@ public class PollHandler {
           .rxSend()
           .flatMap(this::mapStatus)
           .subscribe(newStatus -> checkStatusAndUpdate(service, newStatus)),
-        error -> log.warn("Error while checking url status"));
+        error -> log.error("Error while checking url status: {}", error.getMessage()));
   }
 
   private void checkStatusAndUpdate(Service service, String newStatus) {
