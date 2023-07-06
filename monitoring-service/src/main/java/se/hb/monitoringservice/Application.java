@@ -9,6 +9,7 @@ import io.vertx.rxjava3.ext.web.handler.BodyHandler;
 import io.vertx.rxjava3.ext.web.handler.CorsHandler;
 import io.vertx.rxjava3.mysqlclient.MySQLPool;
 import se.hb.monitoringservice.db.Database;
+import se.hb.monitoringservice.db.DatabaseConfig;
 import se.hb.monitoringservice.handler.PollHandler;
 import se.hb.monitoringservice.handler.ServiceHandler;
 import se.hb.monitoringservice.repository.ServiceRepository;
@@ -20,9 +21,16 @@ public class Application extends AbstractVerticle {
 
   private static final int TEN_SECONDS = 10000;
 
+  private static DatabaseConfig databaseConfig;
+
+  public Application withDatabaseConfig(int dbPort, String dbUser, String dbPass, String dbName, String dbHost) {
+    databaseConfig = new DatabaseConfig(dbPort, dbUser, dbPass, dbName, dbHost);
+    return this;
+  }
+
   @Override
   public Completable rxStart() {
-    MySQLPool connection = Database.createConnection(vertx);
+    MySQLPool connection = Database.createConnection(vertx, databaseConfig);
     WebClient webClient = WebClient.create(vertx);
 
     ServiceRepository serviceRepository = new ServiceRepository(connection);

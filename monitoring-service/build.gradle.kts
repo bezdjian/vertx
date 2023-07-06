@@ -17,6 +17,7 @@ val junitJupiterVersion = "5.8.1"
 val lombokVersion = "1.18.22"
 val jacksonVersion = "2.15.2"
 val slf4jVersion = "1.7.32"
+val testContainerVersion = "1.18.3"
 
 val applicationName = "se.hb.monitoringservice.Application"
 val launcherClassName = "io.vertx.core.Launcher"
@@ -42,6 +43,12 @@ dependencies {
 
   testImplementation("io.vertx:vertx-junit5:$vertxVersion")
   testImplementation("com.squareup.okhttp3:mockwebserver:4.9.2")
+
+  // Test container
+  testImplementation("mysql:mysql-connector-java:8.0.33")
+  testImplementation("org.testcontainers:junit-jupiter:$testContainerVersion")
+  testImplementation("org.testcontainers:mysql:$testContainerVersion")
+  // Test container
 
   compileOnly("org.projectlombok:lombok:$lombokVersion")
   annotationProcessor("org.projectlombok:lombok:$lombokVersion")
