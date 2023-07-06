@@ -12,10 +12,10 @@ repositories {
   mavenCentral()
 }
 
-val vertxVersion = "4.2.1"
+val vertxVersion = "4.4.4"
 val junitJupiterVersion = "5.8.1"
 val lombokVersion = "1.18.22"
-val jacksonVersion = "2.13.0"
+val jacksonVersion = "2.15.2"
 val slf4jVersion = "1.7.32"
 
 val applicationName = "se.hb.monitoringservice.Application"
@@ -33,7 +33,7 @@ dependencies {
   implementation("io.vertx:vertx-web:$vertxVersion")
   implementation("io.vertx:vertx-web-client:$vertxVersion")
   implementation("io.vertx:vertx-mysql-client:$vertxVersion")
-  implementation("io.netty:netty-all:4.1.71.Final")
+  implementation("io.netty:netty-all:4.1.86.Final")
 
   implementation("org.projectlombok:lombok:$lombokVersion")
   implementation("org.slf4j:slf4j-api:$slf4jVersion")
