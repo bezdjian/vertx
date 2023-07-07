@@ -8,12 +8,14 @@ import io.vertx.rxjava3.ext.web.client.WebClient;
 import io.vertx.rxjava3.ext.web.handler.BodyHandler;
 import io.vertx.rxjava3.ext.web.handler.CorsHandler;
 import io.vertx.rxjava3.mysqlclient.MySQLPool;
+import lombok.extern.slf4j.Slf4j;
 import se.hb.monitoringservice.db.Database;
 import se.hb.monitoringservice.db.DatabaseConfig;
 import se.hb.monitoringservice.handler.PollHandler;
 import se.hb.monitoringservice.handler.ServiceHandler;
 import se.hb.monitoringservice.repository.ServiceRepository;
 
+@Slf4j
 public class Application extends AbstractVerticle {
 
   public static final String BASE_SERVICE_URL = "/api/services";
@@ -44,6 +46,7 @@ public class Application extends AbstractVerticle {
     return vertx.createHttpServer()
       .requestHandler(routes)
       .rxListen(8881)
+      .doOnSuccess(server -> log.info("Server is listening on " + server.actualPort()))
       .ignoreElement();
   }
 
